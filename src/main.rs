@@ -18,6 +18,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_startup_system_to_stage(StartupStage::PreStartup, setup.label("setup"))
         .add_startup_system(spawn_player)
+        .add_system(get_input)
         .run();
 }
 
@@ -57,4 +58,21 @@ pub fn spawn_player(
             ..Default::default()
         })
         .insert(Player);
+}
+
+pub fn get_input(
+    mut player_query: Query<&mut Transform, With<Player>>,
+    keyboard: Res<bevy::prelude::Input<KeyCode>>, 
+) {
+    let mut player_transform = player_query.single_mut();
+
+    if keyboard.just_pressed(KeyCode::W) | keyboard.just_pressed(KeyCode::Up) {
+        player_transform.translation.y += TILE_SIZE as f32;
+    } else if keyboard.just_pressed(KeyCode::S) | keyboard.just_pressed(KeyCode::Down) {
+        player_transform.translation.y -= TILE_SIZE as f32;
+    } else if keyboard.just_pressed(KeyCode::A) | keyboard.just_pressed(KeyCode::Left) {
+        player_transform.translation.x -= TILE_SIZE as f32;
+    } else if keyboard.just_pressed(KeyCode::D) | keyboard.just_pressed(KeyCode::Right) {
+        player_transform.translation.x += TILE_SIZE as f32;
+    }
 }
