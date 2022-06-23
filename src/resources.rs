@@ -1,5 +1,5 @@
 use crate::prelude::*;
 
-pub struct SpriteSheet {
+pub struct FontSpriteSheet {
     pub atlas: Handle<TextureAtlas>,
 }
