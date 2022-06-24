@@ -1,9 +1,13 @@
+mod components;
+mod player;
 mod resources;
 
 mod prelude {
     pub use bevy::prelude::*;
     pub use bracket_lib::prelude::*;
     pub const TILE_SIZE: u8 = 8;
+    pub use crate::components::*;
+    pub use crate::player::*;
     pub use crate::resources::*;
 }
 
@@ -22,9 +26,6 @@ fn main() {
         .run();
 }
 
-#[derive(Component)]
-pub struct MainCamera;
-
 fn setup(
     mut commands: Commands,
     assets: Res<AssetServer>,
@@ -38,41 +39,7 @@ fn setup(
         atlas: atlas_handle,
     });
 
-    commands.spawn_bundle(OrthographicCameraBundle::new_2d()).insert(MainCamera);
-}
-
-#[derive(Component)]
-pub struct Player;
-
-pub fn spawn_player(
-    mut commands: Commands,
-    tile_sheet: Res<FontSpriteSheet>,
-) {
     commands
-        .spawn_bundle(SpriteSheetBundle {
-            sprite: TextureAtlasSprite {
-                index: to_cp437('@') as usize,
-                ..TextureAtlasSprite::default()
-            },
-            texture_atlas: tile_sheet.atlas.clone(),
-            ..Default::default()
-        })
-        .insert(Player);
-}
-
-pub fn get_input(
-    mut player_query: Query<&mut Transform, With<Player>>,
-    keyboard: Res<bevy::prelude::Input<KeyCode>>, 
-) {
-    let mut player_transform = player_query.single_mut();
-
-    if keyboard.just_pressed(KeyCode::W) | keyboard.just_pressed(KeyCode::Up) {
-        player_transform.translation.y += TILE_SIZE as f32;
-    } else if keyboard.just_pressed(KeyCode::S) | keyboard.just_pressed(KeyCode::Down) {
-        player_transform.translation.y -= TILE_SIZE as f32;
-    } else if keyboard.just_pressed(KeyCode::A) | keyboard.just_pressed(KeyCode::Left) {
-        player_transform.translation.x -= TILE_SIZE as f32;
-    } else if keyboard.just_pressed(KeyCode::D) | keyboard.just_pressed(KeyCode::Right) {
-        player_transform.translation.x += TILE_SIZE as f32;
-    }
+        .spawn_bundle(OrthographicCameraBundle::new_2d())
+        .insert(MainCamera);
 }
