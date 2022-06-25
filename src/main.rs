@@ -1,4 +1,5 @@
 mod components;
+mod helper;
 mod map;
 mod player;
 mod resources;
@@ -7,9 +8,12 @@ mod prelude {
     pub use bevy::prelude::*;
     pub use bracket_lib::prelude::*;
     pub const TILE_SIZE: i32 = 8;
-    pub const SCREEN_WIDTH: i32 = 80;
-    pub const SCREEN_HEIGHT: i32 = 50;
+    pub const NUM_TILES_WIDTH: i32 = 80;
+    pub const NUM_TILES_HEIGHT: i32 = 50;
+    pub const SCREEN_WIDTH: f32 = 1600.0;
+    pub const SCREEN_HEIGHT: f32 = 1000.0;
     pub use crate::components::*;
+    pub use crate::helper::*;
     pub use crate::map::*;
     pub use crate::player::*;
     pub use crate::resources::*;
@@ -21,6 +25,9 @@ fn main() {
     App::new()
         .insert_resource(WindowDescriptor {
             title: "Rust Roguelike".to_string(),
+            width: 1600.0,
+            height: 1000.0,
+            resizable: false,
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)
@@ -46,7 +53,11 @@ fn setup(
 
     commands.insert_resource(Map::new());
 
+    let mut camera = OrthographicCameraBundle::new_2d();
+
+    // camera.orthographic_projection.scale = 1.0/2.0;
+
     commands
-        .spawn_bundle(OrthographicCameraBundle::new_2d())
+        .spawn_bundle(camera)
         .insert(MainCamera);
 }

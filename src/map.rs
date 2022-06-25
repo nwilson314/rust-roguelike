@@ -20,7 +20,7 @@ impl Map {
 }
 
 pub fn map_idx(x: i32, y: i32) -> usize {
-    ((y * SCREEN_WIDTH) + x) as usize
+    ((y * NUM_TILES_WIDTH) + x) as usize
 }
 
 pub fn render_map(
@@ -28,9 +28,11 @@ pub fn render_map(
     tile_sheet: Res<FontSpriteSheet>,
     map: Res<Map>
 ) {
-    for y in 0..SCREEN_HEIGHT {
-        for x in 0..SCREEN_WIDTH {
+    for y in 0..NUM_TILES_HEIGHT {
+        for x in 0..NUM_TILES_WIDTH {
             let idx = map_idx(x, y);
+            let (pos_x, pos_y) = convert_pos(x, y);
+            let (tile_width, tile_height) = get_windowed_tile_size();
             match map.tiles[idx] {
                 TileType::Wall => {
                     commands
@@ -38,10 +40,11 @@ pub fn render_map(
                             sprite: TextureAtlasSprite {
                                 index: to_cp437('#') as usize,
                                 color: Color::GREEN,
+                                custom_size: Some(Vec2::new(tile_width, tile_height)),
                                 ..TextureAtlasSprite::default()
                             },
+                            transform: Transform::from_xyz(pos_x, pos_y, 0.0),
                             texture_atlas: tile_sheet.atlas.clone(),
-                            transform: Transform::from_xyz((x * TILE_SIZE) as f32, (y * TILE_SIZE) as f32, 0.0),
                             ..Default::default()
                         });
                 },
@@ -51,10 +54,11 @@ pub fn render_map(
                             sprite: TextureAtlasSprite {
                                 index: to_cp437('.') as usize,
                                 color: Color::GREEN,
+                                custom_size: Some(Vec2::new(tile_width, tile_height)),
                                 ..TextureAtlasSprite::default()
                             },
                             texture_atlas: tile_sheet.atlas.clone(),
-                            transform: Transform::from_xyz((x * TILE_SIZE) as f32, (y * TILE_SIZE) as f32, 0.0),
+                            transform: Transform::from_xyz(pos_x, pos_y, 0.0),
                             ..Default::default()
                         });
                 }
