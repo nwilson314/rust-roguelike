@@ -15,7 +15,7 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
             ..Default::default()
         })
         .insert(Player {
-            position: mb.player_start
+            position: mb.player_start,
         });
 }
 
@@ -23,10 +23,13 @@ pub fn get_input(
     mut player_query: Query<(&mut Transform, &mut Player)>,
     keyboard: Res<bevy::prelude::Input<KeyCode>>,
     mb: Res<MapBuilder>,
-    mut camera_query: Query<(&mut Transform, &OrthographicProjection), (With<MainCamera>, Without<Player>)>,
+    mut camera_query: Query<
+        (&mut Transform, &OrthographicProjection),
+        (With<MainCamera>, Without<Player>),
+    >,
 ) {
     let (mut player_transform, mut player) = player_query.single_mut();
-    let (mut camera, projection) = camera_query.single_mut();
+    let (mut camera, _projection) = camera_query.single_mut();
     let mut new_pos = player.position;
     if keyboard.just_pressed(KeyCode::W) | keyboard.just_pressed(KeyCode::Up) {
         new_pos.y += 1;
@@ -45,8 +48,8 @@ pub fn get_input(
         player_transform.translation.x = new_x;
         player_transform.translation.y = new_y;
 
+        // TODO: Update so that the camera only follows the player if it doesn't go "out of bounds"
         camera.translation.x = new_x;
         camera.translation.y = new_y;
     }
-    
 }

@@ -57,7 +57,7 @@ fn setup(
 
     let mut camera = OrthographicCameraBundle::new_2d();
 
-    camera.orthographic_projection.scale = 1.0/2.0;
+    camera.orthographic_projection.scale = 1.0 / 2.0;
 
     commands.spawn_bundle(camera).insert(MainCamera);
 }
