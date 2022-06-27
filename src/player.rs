@@ -1,8 +1,8 @@
 use crate::prelude::*;
 
-pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>) {
+pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: Res<MapBuilder>) {
     let (tile_width, tile_height) = get_windowed_tile_size();
-    let (pos_x, pos_y) = convert_pos(0, 0);
+    let (pos_x, pos_y) = convert_pos(mb.player_start.x, mb.player_start.y);
     commands
         .spawn_bundle(SpriteSheetBundle {
             sprite: TextureAtlasSprite {
@@ -14,26 +14,33 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>) {
             transform: Transform::from_xyz(pos_x, pos_y, 0.0),
             ..Default::default()
         })
-        .insert(Player);
+        .insert(Player {
+            position: mb.player_start
+        });
 }
 
 pub fn get_input(
-    mut player_query: Query<&mut Transform, With<Player>>,
+    mut player_query: Query<(&mut Transform, &mut Player)>,
     keyboard: Res<bevy::prelude::Input<KeyCode>>,
+    mb: Res<MapBuilder>,
 ) {
-    let mut player_transform = player_query.single_mut();
-    let mut velo = vec![0; 2];
-
+    let (mut player_transform, mut player) = player_query.single_mut();
+    let mut new_pos = player.position;
     if keyboard.just_pressed(KeyCode::W) | keyboard.just_pressed(KeyCode::Up) {
-        velo[1] += 1;
+        new_pos.y += 1;
     } else if keyboard.just_pressed(KeyCode::S) | keyboard.just_pressed(KeyCode::Down) {
-        velo[1] -= 1;
+        new_pos.y -= 1;
     } else if keyboard.just_pressed(KeyCode::A) | keyboard.just_pressed(KeyCode::Left) {
-        velo[0] -= 1;
+        new_pos.x -= 1;
     } else if keyboard.just_pressed(KeyCode::D) | keyboard.just_pressed(KeyCode::Right) {
-        velo[0] += 1;
+        new_pos.x += 1;
     }
-    let (vel_x, vel_y) = convert_movement(velo[0], velo[1]);
-    player_transform.translation.x += vel_x;
-    player_transform.translation.y += vel_y;
+
+    if mb.map.can_enter_tile(new_pos) {
+        player.position = new_pos;
+        let (new_x, new_y) = convert_pos(new_pos.x, new_pos.y);
+        player_transform.translation.x = new_x;
+        player_transform.translation.y = new_y;
+    }
+    
 }

@@ -4,4 +4,6 @@ use crate::prelude::*;
 pub struct MainCamera;
 
 #[derive(Component)]
-pub struct Player;
+pub struct Player {
+    pub position: Point,
+}

@@ -1,6 +1,7 @@
 mod components;
 mod helper;
 mod map;
+mod map_builder;
 mod player;
 mod resources;
 
@@ -15,6 +16,7 @@ mod prelude {
     pub use crate::components::*;
     pub use crate::helper::*;
     pub use crate::map::*;
+    pub use crate::map_builder::*;
     pub use crate::player::*;
     pub use crate::resources::*;
 }
@@ -33,7 +35,7 @@ fn main() {
         .add_plugins(DefaultPlugins)
         .add_startup_system_to_stage(StartupStage::PreStartup, setup.label("setup"))
         .add_startup_system(spawn_player)
-        .add_startup_system(render_map)
+        .add_startup_system(spawn_map)
         .add_system(get_input)
         .run();
 }
@@ -51,13 +53,11 @@ fn setup(
         atlas: atlas_handle,
     });
 
-    commands.insert_resource(Map::new());
+    commands.insert_resource(MapBuilder::new());
 
     let mut camera = OrthographicCameraBundle::new_2d();
 
     // camera.orthographic_projection.scale = 1.0/2.0;
 
-    commands
-        .spawn_bundle(camera)
-        .insert(MainCamera);
+    commands.spawn_bundle(camera).insert(MainCamera);
 }
