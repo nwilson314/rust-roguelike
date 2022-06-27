@@ -23,8 +23,10 @@ pub fn get_input(
     mut player_query: Query<(&mut Transform, &mut Player)>,
     keyboard: Res<bevy::prelude::Input<KeyCode>>,
     mb: Res<MapBuilder>,
+    mut camera_query: Query<(&mut Transform, &OrthographicProjection), (With<MainCamera>, Without<Player>)>,
 ) {
     let (mut player_transform, mut player) = player_query.single_mut();
+    let (mut camera, projection) = camera_query.single_mut();
     let mut new_pos = player.position;
     if keyboard.just_pressed(KeyCode::W) | keyboard.just_pressed(KeyCode::Up) {
         new_pos.y += 1;
@@ -37,10 +39,14 @@ pub fn get_input(
     }
 
     if mb.map.can_enter_tile(new_pos) {
+        // let old_pos = player.position;
         player.position = new_pos;
         let (new_x, new_y) = convert_pos(new_pos.x, new_pos.y);
         player_transform.translation.x = new_x;
         player_transform.translation.y = new_y;
+
+        camera.translation.x = new_x;
+        camera.translation.y = new_y;
     }
     
 }
