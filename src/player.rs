@@ -11,7 +11,7 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
                 ..TextureAtlasSprite::default()
             },
             texture_atlas: tile_sheet.atlas.clone(),
-            transform: Transform::from_xyz(pos_x, pos_y, 0.0),
+            transform: Transform::from_xyz(pos_x, pos_y, 1.0),
             ..Default::default()
         })
         .insert(Player {

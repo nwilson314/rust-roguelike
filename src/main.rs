@@ -32,6 +32,9 @@ fn main() {
             resizable: false,
             ..Default::default()
         })
+        .insert_resource(ClearColor(Color::rgb(
+            0.1, 0.1, 0.1,
+        )))
         .add_plugins(DefaultPlugins)
         .add_startup_system_to_stage(StartupStage::PreStartup, setup.label("setup"))
         .add_startup_system(spawn_player)
