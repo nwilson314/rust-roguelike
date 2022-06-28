@@ -6,7 +6,7 @@ pub fn spawn_monsters(
     mb: Res<MapBuilder>,
 ) {
     let mut rng = RandomNumberGenerator::new();
-    for (i, room) in mb.rooms.iter().enumerate().skip(1) {
+    for room in mb.rooms.iter().skip(1) {
         let center = room.center();
         let (index, color) = match rng.range(0, 4) {
             0 => (to_cp437('E') as usize, Color::RED),

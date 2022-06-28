@@ -51,7 +51,7 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
                     commands.spawn_bundle(SpriteSheetBundle {
                         sprite: TextureAtlasSprite {
                             index: to_cp437('#') as usize,
-                            color: Color::DARK_GREEN,
+                            color: Color::GRAY,
                             custom_size: Some(Vec2::new(tile_width, tile_height)),
                             ..TextureAtlasSprite::default()
                         },
@@ -64,7 +64,7 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
                     commands.spawn_bundle(SpriteSheetBundle {
                         sprite: TextureAtlasSprite {
                             index: to_cp437('.') as usize,
-                            color: Color::GRAY,
+                            color: Color::DARK_GRAY,
                             custom_size: Some(Vec2::new(tile_width, tile_height)),
                             ..TextureAtlasSprite::default()
                         },

@@ -20,8 +20,3 @@ pub fn convert_pos(x: i32, y: i32) -> (f32, f32) {
 
     (new_x, new_y)
 }
-
-pub fn convert_movement(x: i32, y: i32) -> (f32, f32) {
-    let (tile_width, tile_height) = get_windowed_tile_size();
-    (tile_width * x as f32, tile_height * y as f32)
-}
