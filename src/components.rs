@@ -7,3 +7,8 @@ pub struct MainCamera;
 pub struct Player {
     pub position: Point,
 }
+
+#[derive(Component)]
+pub struct Enemy {
+    pub position: Point,
+}

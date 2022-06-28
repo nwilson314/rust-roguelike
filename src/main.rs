@@ -1,4 +1,6 @@
+mod collisions;
 mod components;
+mod enemy;
 mod helper;
 mod map;
 mod map_builder;
@@ -13,7 +15,9 @@ mod prelude {
     pub const NUM_TILES_HEIGHT: i32 = 50;
     pub const SCREEN_WIDTH: f32 = 1600.0;
     pub const SCREEN_HEIGHT: f32 = 1000.0;
+    pub use crate::collisions::*;
     pub use crate::components::*;
+    pub use crate::enemy::*;
     pub use crate::helper::*;
     pub use crate::map::*;
     pub use crate::map_builder::*;
@@ -39,7 +43,9 @@ fn main() {
         .add_startup_system_to_stage(StartupStage::PreStartup, setup.label("setup"))
         .add_startup_system(spawn_player)
         .add_startup_system(spawn_map)
+        .add_startup_system(spawn_monsters)
         .add_system(get_input)
+        .add_system(check_enemy_player_collisions)
         .run();
 }
 
