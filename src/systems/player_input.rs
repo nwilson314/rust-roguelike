@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 pub fn get_input(
     mut commands: Commands,
-    mut player_query: Query<(Entity, &mut Player)>,
+    mut player_query: Query<(Entity, &mut Position), With<Player>>,
     mut keyboard: ResMut<bevy::prelude::Input<KeyCode>>,
     mb: Res<MapBuilder>,
     mut turn_state: ResMut<State<TurnState>>,

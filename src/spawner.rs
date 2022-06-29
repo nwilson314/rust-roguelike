@@ -14,9 +14,15 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
             transform: Transform::from_xyz(pos_x, pos_y, 1.0),
             ..Default::default()
         })
-        .insert(Player {
-            position: mb.player_start,
-        });
+        .insert(Player)
+        .insert(Position {
+            position: mb.player_start
+        })
+        .insert(Health {
+            current: 20,
+            max: 20,
+        })
+        ;
 }
 
 pub fn spawn_monsters(
@@ -59,6 +65,9 @@ pub fn spawn_monster(
             transform: Transform::from_xyz(pos_x, pos_y, 1.0),
             ..Default::default()
         })
-        .insert(Enemy { position: pos })
+        .insert(Enemy)
+        .insert(Position {
+            position: pos
+        })
         .insert(MovingRandomly);
 }

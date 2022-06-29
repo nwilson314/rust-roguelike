@@ -4,14 +4,15 @@ use crate::prelude::*;
 pub struct MainCamera;
 
 #[derive(Component)]
-pub struct Player {
-    pub position: Point,
+pub struct Position {
+    pub position: Point
 }
 
 #[derive(Component)]
-pub struct Enemy {
-    pub position: Point,
-}
+pub struct Player;
+
+#[derive(Component)]
+pub struct Enemy;
 
 #[derive(Component)]
 pub struct MovingRandomly;
@@ -19,4 +20,10 @@ pub struct MovingRandomly;
 #[derive(Component)]
 pub struct WantsToMove {
     pub destination: Point,
+}
+
+#[derive(Component)]
+pub struct Health {
+    pub current: i32,
+    pub max: i32,
 }

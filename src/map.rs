@@ -58,6 +58,9 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
                         transform: Transform::from_xyz(pos_x, pos_y, 0.0),
                         texture_atlas: tile_sheet.atlas.clone(),
                         ..Default::default()
+                    })
+                    .insert(Position{
+                        position: Point::new(x, y)
                     });
                 }
                 TileType::Floor => {
@@ -71,6 +74,9 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
                         texture_atlas: tile_sheet.atlas.clone(),
                         transform: Transform::from_xyz(pos_x, pos_y, 0.0),
                         ..Default::default()
+                    })
+                    .insert(Position {
+                        position: Point::new(x,y)
                     });
                 }
             }

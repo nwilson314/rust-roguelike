@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 pub fn random_move(
     mut commands: Commands,
-    mut enemies: Query<(Entity, &mut Enemy), With<MovingRandomly>>,
+    mut enemies: Query<(Entity, &mut Position), (With<MovingRandomly>, With<Enemy>)>,
     mb: Res<MapBuilder>,
 ) {
     let mut rng = RandomNumberGenerator::new();
