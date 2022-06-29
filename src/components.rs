@@ -18,5 +18,5 @@ pub struct MovingRandomly;
 
 #[derive(Component)]
 pub struct WantsToMove {
-    pub destination: Point
+    pub destination: Point,
 }

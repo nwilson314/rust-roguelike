@@ -3,7 +3,7 @@ use crate::prelude::*;
 pub fn collisions(
     mut commands: Commands,
     enemies_query: Query<(&Enemy, Entity)>,
-    player_query: Query<&Player, Without<Enemy>>, 
+    player_query: Query<&Player, Without<Enemy>>,
 ) {
     let player = player_query.single();
     for (enemy, ent) in enemies_query.iter() {

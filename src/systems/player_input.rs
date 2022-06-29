@@ -5,7 +5,7 @@ pub fn get_input(
     mut player_query: Query<(Entity, &mut Player)>,
     mut keyboard: ResMut<bevy::prelude::Input<KeyCode>>,
     mb: Res<MapBuilder>,
-    mut turn_state: ResMut<State<TurnState>>
+    mut turn_state: ResMut<State<TurnState>>,
 ) {
     let (player_entity, mut player) = player_query.single_mut();
 
@@ -27,10 +27,8 @@ pub fn get_input(
     if mb.map.can_enter_tile(new_pos) && new_pos != player.position {
         // let old_pos = player.position;
         player.position = new_pos;
-        commands.entity(player_entity).insert(WantsToMove{
-            destination: new_pos
+        commands.entity(player_entity).insert(WantsToMove {
+            destination: new_pos,
         });
     }
-    
-    
 }

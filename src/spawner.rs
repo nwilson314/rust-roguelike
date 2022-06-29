@@ -31,7 +31,7 @@ pub fn spawn_monsters(
             0 => (to_cp437('E') as usize, Color::RED),
             1 => (to_cp437('O') as usize, Color::ORANGE_RED),
             2 => (to_cp437('o') as usize, Color::ORANGE),
-            _ => (to_cp437('g') as usize, Color::YELLOW)
+            _ => (to_cp437('g') as usize, Color::YELLOW),
         };
 
         spawn_monster(&mut commands, &tile_sheet, index, color, center);
@@ -43,7 +43,7 @@ pub fn spawn_monster(
     tile_sheet: &Res<FontSpriteSheet>,
     index: usize,
     color: Color,
-    pos: Point
+    pos: Point,
 ) {
     let (tile_width, tile_height) = get_windowed_tile_size();
     let (pos_x, pos_y) = convert_pos(pos.x, pos.y);
@@ -59,8 +59,6 @@ pub fn spawn_monster(
             transform: Transform::from_xyz(pos_x, pos_y, 1.0),
             ..Default::default()
         })
-        .insert(Enemy {
-            position: pos,
-        })
+        .insert(Enemy { position: pos })
         .insert(MovingRandomly);
 }
