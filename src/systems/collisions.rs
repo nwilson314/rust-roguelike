@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub fn check_enemy_player_collisions(
+pub fn collisions(
     mut commands: Commands,
     enemies_query: Query<(&Enemy, Entity)>,
     player_query: Query<&Player, Without<Enemy>>, 

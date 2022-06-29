@@ -12,3 +12,11 @@ pub struct Player {
 pub struct Enemy {
     pub position: Point,
 }
+
+#[derive(Component)]
+pub struct MovingRandomly;
+
+#[derive(Component)]
+pub struct WantsToMove {
+    pub destination: Point
+}

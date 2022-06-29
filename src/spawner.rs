@@ -1,5 +1,24 @@
 use crate::prelude::*;
 
+pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: Res<MapBuilder>) {
+    let (tile_width, tile_height) = get_windowed_tile_size();
+    let (pos_x, pos_y) = convert_pos(mb.player_start.x, mb.player_start.y);
+    commands
+        .spawn_bundle(SpriteSheetBundle {
+            sprite: TextureAtlasSprite {
+                index: to_cp437('@') as usize,
+                custom_size: Some(Vec2::new(tile_width, tile_height)),
+                ..TextureAtlasSprite::default()
+            },
+            texture_atlas: tile_sheet.atlas.clone(),
+            transform: Transform::from_xyz(pos_x, pos_y, 1.0),
+            ..Default::default()
+        })
+        .insert(Player {
+            position: mb.player_start,
+        });
+}
+
 pub fn spawn_monsters(
     mut commands: Commands,
     tile_sheet: Res<FontSpriteSheet>,
@@ -42,5 +61,6 @@ pub fn spawn_monster(
         })
         .insert(Enemy {
             position: pos,
-        });
+        })
+        .insert(MovingRandomly);
 }
