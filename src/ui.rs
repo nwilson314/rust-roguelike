@@ -7,13 +7,14 @@ use kayak_ui::{
     core::{
         bind, render, rsx,
         styles::{Edge, StyleProp},
-        styles::{Style, Units},
+        styles::{Style, Units, LayoutType},
         use_state, widget, Binding, Bound, Color, EventType, Index, MutableBound, OnEvent,
         OnLayout, WidgetProps,
     },
     widgets,
     widgets::Background,
     widgets::Window,
+    widgets::Element,
 };
 
 use crate::prelude::{SCREEN_HEIGHT, SCREEN_WIDTH};
@@ -60,21 +61,27 @@ fn BottomUI() {
         color: StyleProp::Value(Color::new(0.5, 1.0, 1.0, 1.0)),
         ..default()
     };
+    let left_box = Style {
+        layout_type: StyleProp::Value(LayoutType::Row),
+        col_between: StyleProp::Value(Units::Pixels(5.0)),
+        ..default()
+    };
     let hp_bar_outer = Style {
         background_color: StyleProp::Value(Color::new(135.0/255.0, 35.0/255.0, 35.0/255.0, 1.0)),
         top: StyleProp::Value(Units::Pixels(10.0)),
         left: StyleProp::Value(Units::Pixels(10.0)),
+        right: StyleProp::Value(Units::Pixels(10.0)),
         min_height: StyleProp::Value(Units::Pixels(50.0)),
         max_height: StyleProp::Value(Units::Pixels(50.0)),
-        min_width: StyleProp::Value(Units::Pixels(SCREEN_WIDTH/2.0 - 40.0)),
-        max_width: StyleProp::Value(Units::Pixels(SCREEN_WIDTH/2.0 - 40.0)),
+        // min_width: StyleProp::Value(Units::Percentage(95.0)),
+        // max_width: StyleProp::Value(Units::Percentage(95.0)),
         ..default()
     };
     let hp_bar_inner = Style {
         background_color: StyleProp::Value(bevy_color_to_color(BevyColor::RED)),
         top: StyleProp::Value(Units::Percentage(15.0)),
-        left: StyleProp::Value(Units::Percentage(1.0)),
-        right: StyleProp::Value(Units::Percentage(1.0)),
+        left: StyleProp::Value(Units::Pixels(10.0)),
+        right: StyleProp::Value(Units::Pixels(10.0)),
         bottom: StyleProp::Value(Units::Percentage(15.0)),
         // min_height: StyleProp::Value(Units::Percentage(50.0)),
         // max_height: StyleProp::Value(Units::Percentage(50.0)),
@@ -82,13 +89,24 @@ fn BottomUI() {
         // max_width: StyleProp::Value(Units::Percentage(99.0)),
         ..default()
     };
+    let hp_text = Style {
+        color: StyleProp::Value(Color::WHITE),
+        top: StyleProp::Value(Units::Pixels(20.0)),
+        left: StyleProp::Value(Units::Pixels(5.0)),
+        // min_width: StyleProp::Value(Units::Percentage(15.0)),
+        // max_width: StyleProp::Value(Units::Percentage(15.0)),
+        ..default()
+    };
     rsx! {
         <Background styles={Some(background)}>
             <Window position={(0.0,SCREEN_HEIGHT-200.0)} size={(SCREEN_WIDTH/2.0, 200.0)} styles={Some(window)}>
+                <Element styles={Some(left_box)}>
+                <widgets::Text content={"Hp: 20/20".to_string()} size={20.0} styles={Some(hp_text)}/>
                 <Background styles={Some(hp_bar_outer)}>
                     <Background styles={Some(hp_bar_inner)}>
                     </Background>
                 </Background>
+                </Element>
             </Window>
             <Window position={(SCREEN_WIDTH/2.0,SCREEN_HEIGHT-200.0)} size={(SCREEN_WIDTH/2.0, 200.0)} styles={Some(window)}>
             </Window>
