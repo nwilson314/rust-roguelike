@@ -5,7 +5,7 @@ pub struct MainCamera;
 
 #[derive(Component)]
 pub struct Position {
-    pub position: Point
+    pub position: Point,
 }
 
 #[derive(Component)]

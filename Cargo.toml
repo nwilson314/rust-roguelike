@@ -8,4 +8,5 @@ edition = "2021"
 [dependencies]
 # bevy = { version = "0.7.0", features = ["dynamic"] }
 bevy = "0.7"
+kayak_ui = { git="https://github.com/StarArawn/kayak_ui", features = ["bevy_renderer"] }
 bracket-lib = "0.8.1"

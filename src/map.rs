@@ -48,36 +48,38 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
             let (tile_width, tile_height) = get_windowed_tile_size();
             match map.tiles[idx] {
                 TileType::Wall => {
-                    commands.spawn_bundle(SpriteSheetBundle {
-                        sprite: TextureAtlasSprite {
-                            index: to_cp437('#') as usize,
-                            color: Color::GRAY,
-                            custom_size: Some(Vec2::new(tile_width, tile_height)),
-                            ..TextureAtlasSprite::default()
-                        },
-                        transform: Transform::from_xyz(pos_x, pos_y, 0.0),
-                        texture_atlas: tile_sheet.atlas.clone(),
-                        ..Default::default()
-                    })
-                    .insert(Position{
-                        position: Point::new(x, y)
-                    });
+                    commands
+                        .spawn_bundle(SpriteSheetBundle {
+                            sprite: TextureAtlasSprite {
+                                index: to_cp437('#') as usize,
+                                color: Color::GRAY,
+                                custom_size: Some(Vec2::new(tile_width, tile_height)),
+                                ..TextureAtlasSprite::default()
+                            },
+                            transform: Transform::from_xyz(pos_x, pos_y, 0.0),
+                            texture_atlas: tile_sheet.atlas.clone(),
+                            ..Default::default()
+                        })
+                        .insert(Position {
+                            position: Point::new(x, y),
+                        });
                 }
                 TileType::Floor => {
-                    commands.spawn_bundle(SpriteSheetBundle {
-                        sprite: TextureAtlasSprite {
-                            index: to_cp437('.') as usize,
-                            color: Color::DARK_GRAY,
-                            custom_size: Some(Vec2::new(tile_width, tile_height)),
-                            ..TextureAtlasSprite::default()
-                        },
-                        texture_atlas: tile_sheet.atlas.clone(),
-                        transform: Transform::from_xyz(pos_x, pos_y, 0.0),
-                        ..Default::default()
-                    })
-                    .insert(Position {
-                        position: Point::new(x,y)
-                    });
+                    commands
+                        .spawn_bundle(SpriteSheetBundle {
+                            sprite: TextureAtlasSprite {
+                                index: to_cp437('.') as usize,
+                                color: Color::DARK_GRAY,
+                                custom_size: Some(Vec2::new(tile_width, tile_height)),
+                                ..TextureAtlasSprite::default()
+                            },
+                            texture_atlas: tile_sheet.atlas.clone(),
+                            transform: Transform::from_xyz(pos_x, pos_y, 0.0),
+                            ..Default::default()
+                        })
+                        .insert(Position {
+                            position: Point::new(x, y),
+                        });
                 }
             }
         }

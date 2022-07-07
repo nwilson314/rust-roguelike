@@ -16,13 +16,12 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
         })
         .insert(Player)
         .insert(Position {
-            position: mb.player_start
+            position: mb.player_start,
         })
         .insert(Health {
             current: 20,
             max: 20,
-        })
-        ;
+        });
 }
 
 pub fn spawn_monsters(
@@ -66,8 +65,6 @@ pub fn spawn_monster(
             ..Default::default()
         })
         .insert(Enemy)
-        .insert(Position {
-            position: pos
-        })
+        .insert(Position { position: pos })
         .insert(MovingRandomly);
 }

@@ -5,6 +5,7 @@ mod map_builder;
 mod resources;
 mod spawner;
 mod systems;
+mod ui;
 
 mod prelude {
     pub use bevy::prelude::*;
@@ -21,6 +22,7 @@ mod prelude {
     pub use crate::resources::*;
     pub use crate::spawner::*;
     pub use crate::systems::*;
+    pub use crate::ui::*;
 }
 
 use prelude::*;
@@ -41,6 +43,7 @@ fn main() {
         .add_startup_system(spawn_map)
         .add_startup_system(spawn_monsters)
         .add_plugin(SystemsPlugin)
+        .add_plugin(UiPlugin)
         .run();
 }
 
