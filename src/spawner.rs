@@ -19,7 +19,7 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
             position: mb.player_start,
         })
         .insert(Health {
-            current: 20,
+            current: 10,
             max: 20,
         });
 }

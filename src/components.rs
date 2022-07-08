@@ -22,7 +22,7 @@ pub struct WantsToMove {
     pub destination: Point,
 }
 
-#[derive(Component)]
+#[derive(Component, Clone, Copy, PartialEq, Debug)]
 pub struct Health {
     pub current: i32,
     pub max: i32,
