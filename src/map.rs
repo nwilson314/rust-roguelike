@@ -45,6 +45,7 @@ pub fn spawn_map(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb: R
         for x in 0..NUM_TILES_WIDTH {
             let idx = map_idx(x, y);
             let (pos_x, pos_y) = convert_pos(x, y);
+            // println!("{}, {}", pos_x, pos_y);
             let (tile_width, tile_height) = get_windowed_tile_size();
             match map.tiles[idx] {
                 TileType::Wall => {

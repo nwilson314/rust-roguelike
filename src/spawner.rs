@@ -19,7 +19,7 @@ pub fn spawn_player(mut commands: Commands, tile_sheet: Res<FontSpriteSheet>, mb
             position: mb.player_start,
         })
         .insert(Health {
-            current: 10,
+            current: 20,
             max: 20,
         });
 }
@@ -32,26 +32,34 @@ pub fn spawn_monsters(
     let mut rng = RandomNumberGenerator::new();
     for room in mb.rooms.iter().skip(1) {
         let center = room.center();
-        let (index, color) = match rng.range(0, 4) {
-            0 => (to_cp437('E') as usize, Color::RED),
-            1 => (to_cp437('O') as usize, Color::ORANGE_RED),
-            2 => (to_cp437('o') as usize, Color::ORANGE),
-            _ => (to_cp437('g') as usize, Color::YELLOW),
+        let (hp, name, index, color) = match rng.range(0, 10) {
+            0..=8 => goblin(),
+            _ => orc(),
         };
 
-        spawn_monster(&mut commands, &tile_sheet, index, color, center);
+        // let (index, color) = match rng.range(0, 4) {
+        //     0 => (to_cp437('E') as usize, Color::RED),
+        //     1 => (to_cp437('O') as usize, Color::ORANGE_RED),
+        //     2 => (to_cp437('o') as usize, Color::ORANGE),
+        //     _ => (to_cp437('g') as usize, Color::YELLOW),
+        // };
+
+        spawn_monster(&mut commands, &tile_sheet, hp, name, index, color, center);
     }
 }
 
 pub fn spawn_monster(
     commands: &mut Commands,
     tile_sheet: &Res<FontSpriteSheet>,
+    hp: i32,
+    name: String,
     index: usize,
     color: Color,
     pos: Point,
 ) {
     let (tile_width, tile_height) = get_windowed_tile_size();
     let (pos_x, pos_y) = convert_pos(pos.x, pos.y);
+
     commands
         .spawn_bundle(SpriteSheetBundle {
             sprite: TextureAtlasSprite {
@@ -66,5 +74,25 @@ pub fn spawn_monster(
         })
         .insert(Enemy)
         .insert(Position { position: pos })
+        .insert(Health {
+            current: hp,
+            max: hp,
+        })
+        .insert(Name::new(name))
         .insert(MovingRandomly);
+}
+
+fn goblin() -> (i32, String, usize, Color) {
+    // (hit points, name, index, color)
+    (
+        1,
+        "Goblin".to_string(),
+        to_cp437('g') as usize,
+        Color::YELLOW,
+    )
+}
+
+fn orc() -> (i32, String, usize, Color) {
+    // (hit points, name, index)
+    (2, "Orc".to_string(), to_cp437('o') as usize, Color::ORANGE)
 }

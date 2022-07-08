@@ -20,3 +20,29 @@ pub fn convert_pos(x: i32, y: i32) -> (f32, f32) {
 
     (new_x, new_y)
 }
+
+/// Get the world position of the cursor in 2D space
+pub fn cursor_to_world(
+    windows: &Windows,
+    camera: &Camera,
+    camera_transform: &GlobalTransform,
+) -> Vec2 {
+    let window = windows.get_primary().unwrap();
+
+    let pos = window.cursor_position().unwrap_or_default();
+    // get the size of the window
+    let window_size = Vec2::new(window.width() as f32, window.height() as f32);
+
+    // convert screen position [0..resolution] to ndc [-1..1] (gpu coordinates)
+    let ndc = (pos / window_size) * 2.0 - Vec2::ONE;
+
+    // matrix for undoing the projection and camera transform
+    let ndc_to_world = camera_transform.compute_matrix() * camera.projection_matrix.inverse();
+
+    // use it to convert ndc to world-space coordinates
+    let world_pos = ndc_to_world.project_point3(ndc.extend(-1.0));
+
+    // reduce it to a 2D value
+    let world_pos: Vec2 = world_pos.truncate();
+    Vec2::new(world_pos.x, world_pos.y)
+}
